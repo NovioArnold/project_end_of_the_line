@@ -25,13 +25,13 @@ class LumberCampConfig(DefaultLocationConfig):
     def load_car(self, quantity: int, product: str) -> None:
         # TODO: Add car loading logic when that is implemented
 
-        if product == self.output_1:
+        if product.lower() == self.output_1:
             self.stock_output_1 = product_from_self(
                 stock=self.stock_output_1,
                 quantity=quantity
             )
 
-        elif product == self.output_2:
+        elif product.lower() == self.output_2:
             self.stock_output_2 = product_from_self(
                 stock=self.stock_output_2,
                 quantity=quantity,

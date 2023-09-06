@@ -17,7 +17,7 @@ class LumberMillConfig(DefaultLocationConfig):
     stock_output_2: int = lm.stock_output_2
     max_store_output_1: int = lm.max_store_output_1
     max_store_output_2: int = lm.max_store_output_2
-    ratio: tuple = (production_ratio['sawmill']['input'], production_ratio['sawmill']['output'])
+    ratio: tuple = lm.ratio
 
     def unload_car(self, quantity: int, product: str) -> None:
         if product == self.input_1:
@@ -70,7 +70,7 @@ class LumberMillConfig(DefaultLocationConfig):
             print(f'not enough input {self.input_1} to produce')
 
     def __str__(self) -> str:
-        return f'{self.name} = {self.output_1} : {self.stock_output_1} ,{self.output_2} : {self.stock_output_2}'
+        return f'{self.name} = {self.output_1} : {self.stock_output_1}/{self.max_store_output_1} ,{self.output_2} : {self.stock_output_2}/{self.max_store_output_2}'
 
     def show_stock(self) -> None:
         print(self.__str__())
