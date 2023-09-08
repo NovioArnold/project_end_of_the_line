@@ -60,27 +60,8 @@ class RollingStockConfig(Protocol):
         ...
 
 
-@dataclass
-class Car(RollingStock):
-    product_1: str | None = None
-    load_1: int = 0
-    max_load_1: int = 0
-    product_2: str | None = None
-    load_2: int = 0
-    max_load_2: int = 0
 
 
-@dataclass
-class Locomotive(RollingStock):
-    type: str | None = None
-    fuel: str | None = None
-    wheel_arrangement: str | None = None
-    class_engines: str | None = None
-    fuel_type: str | None = None
-    fuel_capacity: int = 0
-    fuel_max_capacity: int = 0
-    water_level: int = 0
-    water_max_capacity: int = 0
-    has_engineer: bool = False
-    has_fireman: bool = False
+
+
 

@@ -1,51 +1,50 @@
 from location import Location
 from config import flatcar
-from rollingstock import RollingStockConfig, Car
+from car import Car, CarConfig
+from typing import List, Dict, Iterator, Protocol
+
+car_table: Dict[str, Car] = {}
 
 
-class FlatcarConfig(RollingStockConfig):
-    fc: Car = Car(**flatcar)
-    name: str = fc.name
-    road_number_prefix: str = fc.road_number_prefix
-    road_number: str = fc.road_number
-    railroad: str = fc.railroad
-    durability: int = fc.durability
-    max_durability: int = fc.max_durability
-    is_derailed: bool = fc.is_derailed
-    is_out_of_service: bool = fc.is_out_of_service
-    is_assigned_to_consist: bool = fc.is_assigned_to_consist
-    location: Location = fc.location
-    product_1: str = fc.product_1
-    load_1: int = fc.load_1
-    max_load_1: int = fc.max_load_1
-    product_2: str = fc.product_2
-    load_2: int = fc.load_2
-    max_load_2: int = fc.max_load_2
+def create(railroad: str, prefix: str, number: int, location: Location) -> str:
+    nc = Car(**flatcar)
+    nc.railroad = railroad
+    nc.road_number_prefix = prefix
+    nc.road_number = number
+    nc.location = location
+    car_table[prefix+str(number)] = nc
+    return f'car created {nc} '
 
-    def show_location(self) -> str:
-        return self.location.name
 
-    def set_location(self, location: str) -> None:
-        self.location.name = location
+def show_all() -> List[str]:
+    flatcar_list: list[str] = []
+    for car in car_table:
+        print(car)
+        flatcar_list.append(car)
+    return flatcar_list
 
-    def show_durability(self) -> str:
-        return f'{self.durability}/{self.max_durability}'
 
-    def reduce_durability(self, amount: int) -> None:
-        self.durability -= amount
+def show_by_roadnumber(road_number: int, prefix: str) -> str:
+    r_num: str = prefix+str(road_number)
+    if r_num in car_table:
+        return r_num
+    else:
+        return f'car {r_num} not found'
 
-    def show_road_number(self) -> str:
-        return f'{self.road_number_prefix} + {self.road_number}'
 
-    def show_railroad(self) -> str:
-        return self.railroad
+def show_by_railroad(r_name: str) -> List[str]:
+    railroad_list: List[str] = []
+    for car in car_table:
+        if car_table[car].railroad == r_name:
+            railroad_list.append(car)
+    return railroad_list
 
-    def show_load(self) -> str:
-        if self.load_1 > 0:
-            return f'{self.product_1} : {self.load_1}/{self.max_load_1}'
-        elif self.load_2 > 0:
-            return f'{self.product_2} : {self.load_2}/{self.max_load_2}'
-        else:
-            return 'Empty'
+
+create('B&O','C&O', 1234, Location(name='Cumberland', map_url='MD'))
+create('B&O','C&O', 5678, Location(name='Cumberland', map_url='MD'))
+
+print(car_table['C&O1234'].road_number_prefix)
+print(show_all())
+print(show_by_railroad('B&O'))
 
 

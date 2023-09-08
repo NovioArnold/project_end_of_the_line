@@ -5,7 +5,7 @@ from typing import Protocol
 @dataclass
 class Location:
     name: str | None = None
-    map: str | None = None
+    map_url: str | None = None
 
 
 class DefaultLocationConfig(Protocol):
