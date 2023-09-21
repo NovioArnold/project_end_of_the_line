@@ -130,7 +130,7 @@ class CarTypes(StrEnum):
     boxcar = 'boxcar'
     caboose = 'caboose'
 
-#
+
 class LocomotiveTypes(StrEnum):
     """ All the types of locomotives on the railroad """
     porter_0_4_0 = 'porter_0-4-0'
@@ -145,8 +145,8 @@ class LocomotiveTypes(StrEnum):
     climax_geared_4_4 = 'climax_geared_4-4'
 
 
-
 class CarConfig(BaseModel):
+    """carload config"""
     product_1: Optional[str]
     load_1: int = Field(default=0)
     product_2: Optional[str]
@@ -154,6 +154,7 @@ class CarConfig(BaseModel):
 
 
 class IndustryConfig(BaseModel):
+    """Industry input output config"""
     input_1: Optional[str] = None
     stock_input_1: int = Field(default=0)
     max_store_input_1: int = Field(default=0)
@@ -205,8 +206,7 @@ class IndustryConfig(BaseModel):
     production_ratio: Optional[dict[str:int]] = None
 
 
-
-
+#  TODO: refactor into their own files?
 car = CarTypes
 load = Products
 industries = Industries
@@ -395,36 +395,21 @@ industries.freight_depot = IndustryConfig(
     max_store_input_12=1000,
 )
 
-track_sections = {
-    "template_track": {
-        "name": 'freight_depot <-> lumbermill junction',
-        "map": asset_url['dispatcher_schematic_cn'],
-        "number_of_tracks": 1,
-        "tracks": {
-            "track_1": {
-                "name": "fd-lmj",
-                "track_id": 1,
-                "track_type": track_types['mainline'],
-                "occupied": False,
-                "num_cars": 0,
-                "max_cars": 98
-            },
-        },
-    },
-}
+asset_url = AssetUrl
 
-#  All the industries configs
 
-""" Crew settings"""
-crew_config = {
-    'radio': ['train_radio', 'dispatch_radio', 'prio_speaker', 'crew_lounge', 'create_train_radio', 'delete_train_radio'],
-    'timetable': ['view_timetable', 'delete_timetable', 'create_timetable', 'update_timetable'],
-    'switch_list': ['create_switch_list', 'view_switch_list', 'update_switch_list', 'delete_switch_list'],
-    'consist_table': ['create_consist_table', 'view_consist_table', 'update_consist_table', 'delete_consist_table'],
-    'item_manager': ['create_item', 'view_item', 'update_item', 'delete_item', 'set_rail_flag',
-                     'set_out_of_service_flag'],
-    'load_unload': ['load_car', 'unload_car']
-}
+track_type = TrackTypes
+
+class TrackSection(StrEnum):
+    """config to generate track sections"""
+    industrial = "industrial"
+    yard = "yard"
+    mainline = "mainline"
+    interchange = "interchange"
+    siding = "siding"
+    junction = "junction"
+
+
 
 class ConfigCats(StrEnum):
     """ All the categories of config"""
