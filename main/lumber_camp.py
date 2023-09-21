@@ -8,7 +8,7 @@ from helper import product_from_self
 class LumberCampConfig(DefaultLocationConfig):
     lc: Industry = Industry(**loging_camp)
     name: str = lc.name
-    map: str = lc.map
+    map_url: str = lc.map_url
     output_1: str = lc.output_1
     output_2: str = lc.output_2
     stock_output_1: int = lc.stock_output_1
