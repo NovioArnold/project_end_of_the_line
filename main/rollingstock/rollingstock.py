@@ -126,41 +126,45 @@ class Engine(Rollingstock):
         return (super.__str__(self) + '\n' + self.type + "\n" + self.wheel_base + '/n' + self.fuel.__str__() +
                 self.water.__str__() + '\n' + self.sand.__str__() + '\n' + self.enineer + '\n' + self.fireman)
 
-    def load_fuel(self, fuel: str, quantity: int) -> Product | ValueError:
-        if self.fuel.name == fuel:
+    def load_product(self, product: str, quantity: int) -> Product | ValueError:
+        if self.fuel.name == product:
             self.fuel.add_stock(quantity=quantity)
             return self.fuel
+        elif self.water.name == product:
+            self.water.add_stock(quantity=quantity)
+            return self.water
+        elif self.sand.name == product:
+            self.sand.add_stock(quantity=quantity)
+            return self.sand
         else:
-            return ValueError(f'this {fuel} is not compatible with this engine')
+            return ValueError(f'product {product} not compatible with this engine')
 
-    def unload_fuel(self, fuel: str, quantity: int) -> Product | ValueError:
-        if eval_str(fuel, self.fuel.name) and eval_int(quantity, self.fuel.in_stock) > 0:
+    def unload_product(self, product: str, quantity: int) -> Product | ValueError:
+        if self.fuel.name == product:
             self.fuel.remove_stock(quantity=quantity)
             return self.fuel
-        else:
-            return ValueError(f'this {fuel} is not compatible with this engine or not enough fuel in stock '
-                              f'{self.fuel.in_stock}')
-
-    def load_water(self, water: str, quantity: int) -> Product | ValueError:
-        if eval_str(self.water.name, water):
-            self.water.add_stock(quantity=quantity
+        elif self.water.name == product:
+            self.water.remove_stock(quantity=quantity)
             return self.water
+        elif self.sand.name == product:
+            self.sand.remove_stock(quantity=quantity)
+            return self.sand
         else:
-            return ValueError(f'this {water} is not compatible with this engine')
+            return ValueError(f'product {product} not compatible with this engine')
 
-    def unload_water(self):
-        pass
+    def add_product_new(self, product: str, quantity: int) -> Product | ValueError:
+        match self.fuel:
+            case 'fuel':
+                self.fuel.add_stock(quantity=quantity)
+                return self.fuel
+            case 'water':
+                self.water.add_stock(quantity=quantity)
+                return self.water
+            case 'sand':
+                self.sand.add_stock(quantity=quantity)
+                return self.sand
+            case _:
+                return ValueError(f'product {product} not compatible with this engine')
 
-    def load_sand(self):
-        pass
-
-    def unload_sand(self):
-        pass
-
-    def assign_crew(self):
-        pass
-
-    def release_crew(self):
-        pass
 
 

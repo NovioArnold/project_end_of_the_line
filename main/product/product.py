@@ -1,10 +1,11 @@
 from pydantic import BaseModel, Field
 from main.helper import eval_int, greater_int
+
+
 class Product(BaseModel):
     name: str
     in_stock: int
     max_store: int
-
 
     def __str__(self) -> str:
         return self.name + '\n' + str(self.in_stock) + '\n' + str(self.max_store)
