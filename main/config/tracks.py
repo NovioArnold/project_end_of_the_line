@@ -17,6 +17,16 @@ class TrackTypes(StrEnum):
     arrival = 'arrival'
 
 
+class TrackSection(StrEnum):
+    """config to generate track sections"""
+    industrial = "industrial"
+    yard = "yard"
+    mainline = "mainline"
+    interchange = "interchange"
+    siding = "siding"
+    junction = "junction"
+
+
 class Yards(StrEnum):
     """ All the yards on the railroad"""
     freight_depot = 'freight_depot'  # main shops
