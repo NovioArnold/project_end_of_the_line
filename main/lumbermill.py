@@ -1,5 +1,5 @@
 from industry import Industry
-from config import sawmill, production_ratio
+from main.config.config import sawmill
 from location import DefaultLocationConfig
 from helper import product_from_self, product_to_self
 

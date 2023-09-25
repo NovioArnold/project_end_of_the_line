@@ -2,7 +2,7 @@
 from rollingstock.rs_protocol import CarConfig
 from location import Location
 
-from config import flatcar
+from main.config.config import flatcar
 
 
 def main():

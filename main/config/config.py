@@ -2,244 +2,36 @@
 from typing import List, Dict, Optional
 from pydantic import BaseModel, Field
 from enum import StrEnum
+from variables import railroads
 
 
-""" List of all the railroads on the map"""
-railroads: list[str:dict[str:str]] = [
-    {
-        'name': 'Canadian National',
-        'road_number_prefix': 'CN',
-    },
-    {
-        'name': 'Alaska Railroad',
-        'road_number_prefix': 'ARR',
-    },
-    {
-        'name': 'Arnold Lumber Company',
-        'road_number_prefix': 'ALC',
-    },
-
-]
-
-class TrackTypes(StrEnum):
-    """ All the types of track"""
-    mainline = 'mainline'
-    siding = 'siding'
-    interchange = 'interchange'
-    junction = 'junction'
-    switch = 'switch'
-    spur = 'spur'
-    service = 'service'
-    lead = 'lead'
-    classification = 'classification'
-    departure = 'departure'
-    arrival = 'arrival'
 
 
-class RollinStock(StrEnum):
-    """ All the types of rolling stock"""
-    locomotive = 'locomotive'
-    car = 'car'
-    caboose = 'caboose'
 
 
-class AssetUrl(StrEnum):
-    """
-    All the logs, documentation, maps and rulebook.
-    Sets up all s3 endpoints
-
-    """
-    dispatcher_schematic_cn = 'https://railroad-dispatcher.s3.amazonaws.com/dispatcher_schematic_cn.png'
-    dispatcher_schematic_arr = 'https://railroad-dispatcher.s3.amazonaws.com/dispatcher_schematic_arr.png'
-    dispatcher_schematic_alc = 'https://railroad-dispatcher.s3.amazonaws.com/dispatcher_schematic_alc.png'
-    loging_camp = 'https://railroad-dispatcher.s3.amazonaws.com/logging_camp.png'
-    sawmill = 'https://railroad-dispatcher.s3.amazonaws.com/sawmill.png'
-    iron_mine = 'https://railroad-dispatcher.s3.amazonaws.com/iron_mine.png'
-    smelter = 'https://railroad-dispatcher.s3.amazonaws.com/smelter.png'
-    coal_mine = 'https://railroad-dispatcher.s3.amazonaws.com/coal_mine.png'
-    steel_mill = 'https://railroad-dispatcher.s3.amazonaws.com/steel_mill.png'
-    oil_well = 'https://railroad-dispatcher.s3.amazonaws.com/oil_well.png'
-    oil_refinery = 'https://railroad-dispatcher.s3.amazonaws.com/oil_refinery.png'
-    freight_depot = 'https://railroad-dispatcher.s3.amazonaws.com/freight_depot.png'
-    # rulebooks
-    cn_rulebook = 'https://railroad-dispatcher.s3.amazonaws.com/cn_rulebook.pdf'
-    arr_rulebook = 'https://railroad-dispatcher.s3.amazonaws.com/arr_rulebook.pdf'
-    alc_rulebook = 'https://railroad-dispatcher.s3.amazonaws.com/alc_rulebook.pdf'
-    # maps
-    cn_map = 'https://railroad-dispatcher.s3.amazonaws.com/cn_map.png'
-    arr_map = 'https://railroad-dispatcher.s3.amazonaws.com/arr_map.png'
-    alc_map = 'https://railroad-dispatcher.s3.amazonaws.com/alc_map.png'
-    # logs
-    operations_log = 'https://railroad-dispatcher.s3.amazonaws.com/operations_log.csv'
-    db_log = 'https://railroad-dispatcher.s3.amazonaws.com/db_log.csv'
-    chat_log = 'https://railroad-dispatcher.s3.amazonaws.com/chat_log.csv'
-    status_log = 'https://railroad-dispatcher.s3.amazonaws.com/status_log.csv'
 
 
-# the products transported on the railroad
-class Products(StrEnum):
-    logs = 'logs'
-    lumber = 'lumber'
-    beams = 'beams'
-    cordwood = 'cordwood'
-    iron_ore = 'iron_ore'
-    raw_iron = 'raw_iron'
-    rails = 'rails'
-    coal = 'coal'
-    pipe = 'pipe'
-    tools = 'tools'
-    crude_oil = 'crude_oil'
-    oil_barrel = 'oil_barrel'
-    wood = 'wood'
-    water = 'water'
-    sand = 'sand'
-
-# Switching yards on the railroad
-class Yards(StrEnum):
-    freight_depot = 'freight_depot'
-    sawmill_interchange = 'sawmill_interchange'
-    oil_field_yard = 'oil_field_yard'
-    oil_refinery_yard = 'oil_refinery_yard'
-    smelter_yard = 'smelter_yard'
-    mine_yard = 'mine_yard'
-
-# Mainline junctions on te railroad
-class Junctions(StrEnum):
-    sawmill_junction = 'sawmill_junction'
-    mine_junction = 'mine_junction'
-
-# Type of industries on the railroad.
-class Industries(StrEnum):
-    logging_camp = 'Logging Camp'
-    sawmill = 'Sawmill'
-    iron_mine = 'Iron Mine'
-    smelter = 'Smelter'
-    coal_mine = 'Coal Mine'
-    steel_mill = 'Steel Mill'
-    oil_well = 'Oil Well'
-    oil_refinery = 'Oil Refinery'
 
 
-class CarTypes(StrEnum):
-    """ All the types of cars on the railroad """
-    flatcar = 'flatcar'
-    stake_flatcar = 'stake flatcar'
-    bulkhead_flatcar = 'bulkhead flatcar'
-    hopper = 'hopper'
-    tank_car = 'tank car'
-    boxcar = 'boxcar'
-    caboose = 'caboose'
 
 
-class LocomotiveTypes(StrEnum):
-    """ All the types of locomotives on the railroad """
-    porter_0_4_0 = 'porter_0-4-0'
-    porter_0_4_2 = 'porter_0-2-2'
-    american_4_4_0 = 'american_4-4-0'
-    mogul_2_6_0 = 'mogul_2-6-0'
-    consolidation_2_8_0 = 'consolidation_2-8-0'
-    mikado_2_8_2 = 'mikado_2-8-2'
-    hudson_4_6_4 = 'hudson_4-6-4'
-    northern_4_8_4 = 'northern_4-8-4'
-    shay_geared_4_4 = 'shay_geared_4-4'
-    climax_geared_4_4 = 'climax_geared_4-4'
 
 
-class CarConfig(BaseModel):
-    """carload config"""
-    product_1: Optional[str]
-    load_1: int = Field(default=0)
-    product_2: Optional[str]
-    load_2: int = Field(default=0)
 
 
-class IndustryConfig(BaseModel):
-    """Industry input output config"""
-    input_1: Optional[str] = None
-    stock_input_1: int = Field(default=0)
-    max_store_input_1: int = Field(default=0)
-    input_2: Optional[str] = None
-    stock_input_2: int = Field(default=0)
-    max_store_input_2: int = Field(default=0)
-    input_3: Optional[str] = None
-    stock_input_3: int = Field(default=0)
-    max_store_input_3: int = Field(default=0)
-    output_1: Optional[str] = None
-    stock_output_1: int = Field(default=0)
-    max_store_output_1: int = Field(default=0)
-    output_2: Optional[str] = None
-    stock_output_2: int = Field(default=0)
-    max_store_output_2: int = Field(default=0)
-    output_3: Optional[str] = None
-    stock_output_3: int = Field(default=0)
-    max_store_output_3: int = Field(default=0)
-    output_4: Optional[str] = None
-    stock_output_4: int = Field(default=0)
-    max_store_output_4: int = Field(default=0)
-    output_5: Optional[str] = None
-    stock_output_5: int = Field(default=0)
-    max_store_output_5: int = Field(default=0)
-    output_6: Optional[str] = None
-    stock_output_6: int = Field(default=0)
-    max_store_output_6: int = Field(default=0)
-    output_7: Optional[str] = None
-    stock_output_7: int = Field(default=0)
-    max_store_output_7: int = Field(default=0)
-    output_8: Optional[str] = None
-    stock_output_8: int = Field(default=0)
-    max_store_output_8: int = Field(default=0)
-    output_9: Optional[str] = None
-    stock_output_9: int = Field(default=0)
-    max_store_output_9: int = Field(default=0)
-    output_10: Optional[str] = None
-    stock_output_10: int = Field(default=0)
-    max_store_output_10: int = Field(default=0)
-    output_11: Optional[str] = None
-    stock_output_11: int = Field(default=0)
-    max_store_output_11: int = Field(default=0)
-    output_12: Optional[str] = None
-    stock_output_12: int = Field(default=0)
-    max_store_output_12: int = Field(default=0)
-    output_13: Optional[str] = None
-    stock_output_13: int = Field(default=0)
-    max_store_output_13: int = Field(default=0)
-    production_ratio: Optional[dict[str:int]] = None
+
+
+
+
+
+
 
 
 #  TODO: refactor into their own files?
 car = CarTypes
 load = Products
 industries = Industries
-production_ratio: dict[str:dict[str:int]] = {
-     industries.sawmill: {
-        "input": 2,
-        "output": 2,
-     },
-     industries.smelter: {
-        "input": 2,
-        "output": 2,
-     },
-     industries.logging_camp: {
-        "input": 2,
-        "output": 2,
-     },
-     industries.oil_refinery: {
-        "input": 2,
-        "output": 2,
-     },
-     industries.coal_mine: {
-        "input": 2,
-        "output": 2,
-    },
-     industries.iron_mine: {
-        "input": 2,
-        "output": 2,
-     },
-     industries.oil_well: {
-        "input": 2,
-        "output": 2,
-     },
- }
+
 
 
 car.flatcar = CarConfig(procuct_1=load.logs, load_1=8, product_2=load.pipe, load_2=6)
@@ -396,9 +188,8 @@ industries.freight_depot = IndustryConfig(
 )
 
 asset_url = AssetUrl
-
-
 track_type = TrackTypes
+
 
 class TrackSection(StrEnum):
     """config to generate track sections"""
@@ -408,7 +199,6 @@ class TrackSection(StrEnum):
     interchange = "interchange"
     siding = "siding"
     junction = "junction"
-
 
 
 class ConfigCats(StrEnum):
@@ -467,6 +257,7 @@ class ConfigLoadUnload(StrEnum):
     """ All the load unload config"""
     load_car = 'load_car'
     unload_car = 'unload_car'
+    view_load = 'view_load'
 
 
 class ConfigFlags(StrEnum):
@@ -476,6 +267,18 @@ class ConfigFlags(StrEnum):
     set_is_routed_flag = 'set_is_routed_flag'
     set_is_in_service_flag = 'set_is_in_service_flag'
     set_is_assigned_to_consist_flag = 'set_is_assigned_to_consist_flag'
+
+
+def config_crew(job_name: str):
+
+    match job_name:
+        case 'conductor':
+            return conductor_config
+        case 'engineer':
+            return engineer_config
+        case 'fireman':
+            return brakeman_config
+
 
 
 config_cat = ConfigCats
@@ -488,6 +291,7 @@ config_load_unload = ConfigLoadUnload
 config_flags = ConfigFlags
 
 
+""" Sets up the rights for the conductor"""
 conductor_config = {
         config_cat.radio: {
             config_radio.train_radio: True,  # train radio
@@ -519,6 +323,7 @@ conductor_config = {
         config_cat.load_unload: {
             config_load_unload.load_car: True,  # load car
             config_load_unload.unload_car: True,  # unload car
+            config_load_unload.view_load: True,  # load car
         },
         config_cat.item_manager: {
             config_item_manager.create_item: True,  # create item

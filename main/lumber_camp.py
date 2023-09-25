@@ -1,6 +1,6 @@
 from time import sleep
 from industry import Industry
-from config import loging_camp
+from main.config.config import loging_camp
 from location import DefaultLocationConfig
 from helper import product_from_self
 
