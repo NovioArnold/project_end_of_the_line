@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from jobs import conductor_rights
+from jobs import conductor_rights, engineer_rights
 from main.helper import eval_bool
 
 
@@ -56,6 +56,10 @@ class User(BaseModel):
             case 'conductor':
                 self.active_rights = conductor_rights
                 return self.active_rights
+            case 'engineer':
+                self.active_rights = engineer_rights
+                return self.active_rights
+
 
 
 
