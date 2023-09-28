@@ -13,10 +13,7 @@ logging.handlers.TimedRotatingFileHandler('midnight.log', when='midnight', inter
 
 logger = logging.getLogger(__name__)
 
-logger.debug('debug message')
-logger.info('info message')
-logger.warning('warning message')
-logger.error('error message')
+
 
 
 
