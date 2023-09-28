@@ -6,8 +6,11 @@ from pydantic import BaseModel, Field
 from products import Products
 
 
+PRODUCTS = Products
+
 class RollinStock(StrEnum):
     """ All the types of rolling stock"""
+    none = 'none'
     locomotive = 'locomotive'
     car = 'car'
     caboose = 'caboose'
@@ -15,6 +18,7 @@ class RollinStock(StrEnum):
 
 class CarTypes(StrEnum):
     """ All the types of cars on the railroad """
+    none = 'none'
     flatcar = 'flatcar'
     stake_flatcar = 'stake_flatcar'
     bulkhead_flatcar = 'bulkhead_flatcar'
@@ -26,6 +30,7 @@ class CarTypes(StrEnum):
 
 class LocomotiveTypes(StrEnum):
     """ All the types of locomotives on the railroad """
+    none = 'none'
     porter_0_4_0 = 'porter_0-4-0'
     porter_0_4_2 = 'porter_0-2-2'
     american_4_4_0 = 'american_4-4-0'
@@ -40,9 +45,26 @@ class LocomotiveTypes(StrEnum):
 
 class CarConfig(BaseModel):
     """carload config"""
-    product_1: str = Field(default=Products.not_in_use)
+    product_1: str = Field(default=PRODUCTS.not_in_use)
     load_1: int = Field(default=0)
     max_load_1: int = Field(default=0)
-    product_2: str = Field(default=Products.not_in_use)
+    product_2: str = Field(default=PRODUCTS.not_in_use)
     load_2: int = Field(default=0)
     max_load_2: int = Field(default=0)
+
+
+class LocomotiveConfig(BaseModel):
+    """locomotive config"""
+    fuel: str = Field(default=PRODUCTS.not_in_use)
+    fuel_load: int = Field(default=0)
+    max_fuel_load: int = Field(default=0)
+    water: str = Field(default=PRODUCTS.not_in_use)
+    water_load: int = Field(default=0)
+    max_water_load: int = Field(default=0)
+    sand: str = Field(default=PRODUCTS.not_in_use)
+    sand_load: int = Field(default=0)
+    max_sand_load: int = Field(default=0)
+    engineer_id: str = Field(default='')
+    fireman_id: str = Field(default='')
+    conductor_id: str = Field(default='')
+

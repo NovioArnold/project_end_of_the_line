@@ -74,7 +74,7 @@ class IndustryConfig(BaseModel):
     output_13: str = Field(default=PRODUCT.not_in_use)
     stock_output_13: int = Field(default=0)
     max_store_output_13: int = Field(default=0)
-    production_ratio: Optional[dict[production_ratio]] = Field(default_factory=dict, name="production_ratio")
+    production_ratio: Optional[dict[production_ratio]] = Field(default_factory=dict, title="production_ratio")
 
 
 """init industries base class"""

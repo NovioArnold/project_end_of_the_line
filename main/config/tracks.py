@@ -4,6 +4,7 @@ from enum import StrEnum
 
 class TrackTypes(StrEnum):
     """ All the types of track"""
+    none = 'none'
     mainline = 'mainline'
     siding = 'siding'
     interchange = 'interchange'
@@ -19,6 +20,7 @@ class TrackTypes(StrEnum):
 
 class TrackSection(StrEnum):
     """config to generate track sections"""
+    none = 'none'
     industrial = "industrial"
     yard = "yard"
     mainline = "mainline"
@@ -29,6 +31,7 @@ class TrackSection(StrEnum):
 
 class Yards(StrEnum):
     """ All the yards on the railroad"""
+    none = 'none'
     freight_depot = 'freight_depot'  # main shops
     sawmill_interchange = 'sawmill_interchange'  # interchange yard for ALC/CN/ARR
     oil_field_yard = 'oil_field_yard'  # main yard for Canadian National
@@ -43,12 +46,14 @@ class Yards(StrEnum):
 # Mainline junctions on te railroad
 class Junctions(StrEnum):
     """ All the junctions on the railroad"""
+    none = 'none'
     sawmill_junction = 'sawmill_junction'
     mine_junction = 'mine_junction'
 
 
 class Siding(StrEnum):
     """ All the sidings on the railroad"""
+    none = 'none'
     freight_depot_siding = 'freight_depot_siding'
     oil_field_siding = 'oil_field_siding'
     coal_mine_siding = 'coal_mine_siding'

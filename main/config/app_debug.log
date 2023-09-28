@@ -3,3 +3,7 @@
 2023-09-28 09:47:51,288 WARNING __main__ This is a warning message
 2023-09-28 09:47:51,288 ERROR __main__ This is an error message
 2023-09-28 09:47:51,288 CRITICAL __main__ This is a critical message
+2023-09-28 11:47:24,354 DEBUG __main__ debug message
+2023-09-28 11:47:24,354 INFO __main__ info message
+2023-09-28 11:47:24,354 WARNING __main__ warning message
+2023-09-28 11:47:24,354 ERROR __main__ error message

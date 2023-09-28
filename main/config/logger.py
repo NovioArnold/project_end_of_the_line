@@ -1,18 +1,24 @@
 import logging
+import logging.handlers
 
 logging.basicConfig(
     filename='app_debug.log',
+    filemode='a',
     encoding='utf-8',
     level=logging.DEBUG,
     format='%(asctime)s %(levelname)s %(name)s %(message)s'
 )
 
+logging.handlers.TimedRotatingFileHandler('midnight.log', when='midnight', interval=1, backupCount=7)
+
 logger = logging.getLogger(__name__)
 
-logger.debug('This is a debug message')
-logger.info('This is an info message')
-logger.warning('This is a warning message')
-logger.error('This is an error message')
-logger.critical('This is a critical message')
+logger.debug('debug message')
+logger.info('info message')
+logger.warning('warning message')
+logger.error('error message')
+
+
+
 
 

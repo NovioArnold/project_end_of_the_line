@@ -2,6 +2,10 @@
 """ List of all the railroads on the map"""
 railroads: list[str:dict[str:str]] = [
     {
+        'name': 'None',
+        'road_number_prefix': 'none',
+    },
+    {
         'name': 'Canadian National',
         'road_number_prefix': 'CN',
     },
