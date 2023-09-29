@@ -1,14 +1,15 @@
 from pydantic import BaseModel, Field
+from dataclasses import dataclass
 
 from variables import railroads
 from asseturl import AssetUrl
 
-from logger import logger
+from logger import
 
 ASSETURL = AssetUrl
 
-
-class Railroad(BaseModel):
+@dataclass
+class Railroad:
     name: str
     road_number_prefix: str
 
@@ -22,7 +23,8 @@ RAILROADS = [none, cn, arr, alc]
 print(cn)
 
 
-class Location(BaseModel):
+@dataclass
+class Location:
     """Locations on the railroad"""
     name: str = Field(default='none')
     track_diagram: ASSETURL = Field(default=ASSETURL.none)
@@ -55,7 +57,7 @@ class Location(BaseModel):
 
     def update_owner(self, owner: str) -> str | ValueError:
         try:
-            self.owner['name'] = RAILROADS.name[owner]
+            self.owner['name'] = RAILROADS['name']
             logger.info(f'{owner} added to location')
             return self.owner["name"]
         except ValueError as e:
@@ -63,3 +65,6 @@ class Location(BaseModel):
             return e
 
 
+sawmill = Location(name='Sawmill', track_diagram=ASSETURL.sawmill, owner=RAILROADS[3])
+
+print(sawmill.name , sawmill.track_diagram, sawmill.owner)
