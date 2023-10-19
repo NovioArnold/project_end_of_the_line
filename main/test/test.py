@@ -1,9 +1,10 @@
 import pytest
 
 
-
+testfiles = ['test_jobs.py', 'test_industries.py', 'test_router.py']
 def main():
-    pytest.main(['-v', '-x', '-s', 'crew_test.py'])
+    for tests in testfiles:
+        pytest.main(['-v', '-x', '-s', tests])
 
 if __name__ == '__main__':
     main()

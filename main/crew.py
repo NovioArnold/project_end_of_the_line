@@ -1,14 +1,14 @@
 """This module contains the Crew class."""
 
-from pydantic import BaseModel, Field
+from dataclasses import dataclass, field
 from typing import Optional
-from helper import eval_bool
 
 
-@dataclass()
+
+@dataclass
 class Crew:
     name_role: str
-    rights: dict[dict[str:bool]] = Field(default_factory=dict)
+    rights: dict = field(default_factory=dict)
 
     def __str__(self) -> str:
         return self.name_role + '\n' + self.show_rights()

@@ -1,12 +1,12 @@
-from pydantic import BaseModel, Field
-from dataclasses import dataclass
 
-from variables import railroads
-from asseturl import AssetUrl
+from dataclasses import dataclass, field
 
-from logger import
+from main.config.variables import railroads, location
+from main.config.asseturl import AssetUrl
 
-ASSETURL = AssetUrl
+from main.config.logger import logger
+
+
 
 @dataclass
 class Railroad:
@@ -14,21 +14,14 @@ class Railroad:
     road_number_prefix: str
 
 
-none = Railroad(name='None', road_number_prefix='none')
-cn = Railroad(name='Canadian National', road_number_prefix='CN')
-arr = Railroad(name='Alaska Railroad', road_number_prefix='ARR')
-alc = Railroad(name='Arnold Lumber Company', road_number_prefix='ALC')
-RAILROADS = [none, cn, arr, alc]
-
-print(cn)
 
 
 @dataclass
 class Location:
     """Locations on the railroad"""
-    name: str = Field(default='none')
-    track_diagram: ASSETURL = Field(default=ASSETURL.none)
-    owner: RAILROADS = Field(default=RAILROADS[0])
+    name: location = location[0]
+    track_diagram: AssetUrl = AssetUrl.none
+    owner: railroads = railroads[0]['name']
 
     def __str__(self) -> str:
         logger.info(f'{self.name} is owned by {self.owner["name"]}')
@@ -65,6 +58,3 @@ class Location:
             return e
 
 
-sawmill = Location(name='Sawmill', track_diagram=ASSETURL.sawmill, owner=RAILROADS[3])
-
-print(sawmill.name , sawmill.track_diagram, sawmill.owner)

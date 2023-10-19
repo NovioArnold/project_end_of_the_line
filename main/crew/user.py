@@ -1,43 +1,48 @@
-from main.config.users import ConfigUser, Jobs
-from main.crew.jobs import (conductor_rights,
-                  engineer_rights,
-                  dispatcher_rights,
-                  admin_rights,)
-from main.helper import eval_bool
-from dataclasses import dataclass, field
-from typing import Optional
 
-JOBS = Jobs
+from dataclasses import dataclass, field
+
+from main.config.jobs import Rights
+from main.config.users import EnumJobs
+from main.config.variables import jobs
+
+
+no_role: Rights = Rights(**(jobs[EnumJobs.no_role]))
+conductor: Rights = Rights(**(jobs[EnumJobs.conductor]))
+engineer: Rights = Rights(**(jobs[EnumJobs.engineer]))
+dispatcher: Rights = Rights(**(jobs[EnumJobs.dispatcher]))
+admin: Rights = Rights(**(jobs[EnumJobs.admin]))
+
 @dataclass
 class User:
     """User model"""
     username: str
     password: str
     email: str
-    active_role: str = JOBS.no_role
+    active_role: str = EnumJobs.no_role
     is_active: bool = False
     is_online: bool = False
     is_admin: bool = False
-    allowed_roles: list[Jobs] = field(default_factory=list)
-    active_rights: dict[ConfigUser] = field(default_factory=dict)
+    allowed_roles: list[EnumJobs] = field(default_factory=list)
+    active_rights: Rights = field(default_factory=Rights)
 
     def __str__(self) -> str:
+        """returns a string representation of the user"""
         return (f'user {self.username}\n '
                 f'and has roles {self.active_role}\n '
                 f'and is active {self.is_active}\n '
                 f'and is online {self.is_online}\n'
                 f'and is admin {self.is_admin}\n')
 
-    @classmethod
-    def show_active_role(cls) -> active_role:
-        return cls.active_role
+    def show_active_role(self) -> active_role:
+        """returns the active role of the user"""
+        return self.active_role
 
-    @classmethod
-    def show_allowed_roles(cls) -> allowed_roles:
-        return cls.allowed_roles
+    def show_allowed_roles(self) -> allowed_roles:
+        """returns the allowed roles of the user"""
+        return self.allowed_roles
 
-
-    def set_active_role(self, role: Jobs) -> str:
+    def set_active_role(self, role: str) ->  str:
+        """sets the active role of the user"""
         if role not in self.allowed_roles:
             return f'{role} is not allowed to this user'
         else:
@@ -45,9 +50,32 @@ class User:
                 return f'{role} is already active'
             else:
                 self.active_role = role
-                return f'{role} is now active'
+                match role:
+                    case EnumJobs.no_role:
+                        self.active_rights = no_role
+                        return f'role is now {self.active_rights}'
+                    case EnumJobs.conductor:
+                        self.active_rights = conductor
+                        return f'role is now {self.active_rights}'
+                    case EnumJobs.engineer:
+                        self.active_rights = engineer
+                        return f'role is now {self.active_rights}'
+                    case EnumJobs.dispatcher:
+                        self.active_rights = dispatcher
+                        return f'role is now {self.active_rights}'
+                    case EnumJobs.admin:
+                        self.active_rights = admin
+                        return f'role is now {self.active_rights}'
+                return f'role{self.active_role} with {self.active_rights} rights is now active'
 
-    def add_allowed_role(self, role: Jobs) -> str:
+    def clear_active_role(self):
+        """clears the active role of the user"""
+        self.active_role = EnumJobs.no_role
+        self.active_rights = no_role
+        return self.active_role, self.active_rights
+
+    def add_allowed_role(self, role: EnumJobs) -> str:
+        """adds a role to the allowed roles of the user"""
         self.allowed_roles.append(role)
         if role not in self.allowed_roles:
             self.allowed_roles.append(role)
@@ -55,42 +83,20 @@ class User:
         else:
             return f'this user already now has the role {role}'
 
-    @classmethod
-    def remove_allowed_role(cls, role: Jobs) -> str:
-        if role not in cls.allowed_roles:
+    def remove_allowed_role(self, role: EnumJobs) -> str:
+        """removes a role from the allowed roles of the user"""
+        if role not in self.allowed_roles:
             return f'this user does not have the role {role}'
         else:
-            cls.allowed_roles.remove(role)
-            return f'this user no longer has the role {role}'
+            if role == self.active_role:
+                self.set_active_role(EnumJobs.no_role)
+                self.allowed_roles.remove(role)
+                return f'this user no longer has the role {role} and is now {self.active_role}'
+            else:
+                self.allowed_roles.remove(role)
+                return f'this user no longer has the role {role}'
 
-    def set_active_rights(self, role: Jobs) -> dict[active_rights] | ValueError:
-        match role:
-            case JOBS.conductor:
-                self.active_rights.update(conductor_rights.radio_rights)
-                self.active_rights.update(conductor_rights.timetable_rights)
-                self.active_rights.update(conductor_rights.switch_list_rights)
-                self.active_rights.update(conductor_rights.consist_table_rights)
-                self.active_rights.update(conductor_rights.item_manager_rights)
-                self.active_rights.update(conductor_rights.flags_rights)
-                self.active_rights.update(conductor_rights.load_unload_rights)
-                return self.active_rights
-            case JOBS.engineer:
-                self.active_rights.update(engineer_rights.radio_rights)
-                self.active_rights.update(engineer_rights.timetable_rights)
-                self.active_rights.update(engineer_rights.switch_list_rights)
-                self.active_rights.update(engineer_rights.consist_table_rights)
-                self.active_rights.update(engineer_rights.item_manager_rights)
-                self.active_rights.update(engineer_rights.flags_rights)
-                self.active_rights.update(engineer_rights.load_unload_rights)
-                return self.active_rights
-            case 'dispatcher':
-                self.active_rights = dispatcher_rights
-                return self.active_rights
-            case 'admin':
-                self.active_rights = admin_rights
-                return self.active_rights
-            case _:
-                return ValueError(f'{role} is not a valid role')
+
 
 
 

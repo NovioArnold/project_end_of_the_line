@@ -1,57 +1,43 @@
 from dataclasses import dataclass
+from typing import Optional
 
-from location import Location
+from main.location.location import Location
+from main.config.industries import IndustryConfig
+
 
 
 
 @dataclass
-class Industry(Location):
-    input_1: str | None = None
-    stock_input_1: int | None = None
-    max_store_input_1: int | None = None
-    input_2: str | None = None
-    stock_input_2: int | None = None
-    max_store_input_2: int | None = None
-    input_3: str | None = None
-    in_stock_input_3: int | None = None
-    max_store_input_3: int | None = None
-    output_1: str | None = None
-    stock_output_1: int | None = None
-    max_store_output_1: int | None = None
-    output_2: str | None = None
-    stock_output_2: int | None = None
-    max_store_output_2: int | None = None
-    ratio: tuple | None = None
+class Industry:
+    name: str
+    location: Location
+    config: IndustryConfig
 
-    #  extra inputs used for the freight depot
-    input_4: str | None = None
-    max_store_input_4: int | None = None
-    input_5: str | None = None
-    max_store_input_5: int | None = None
-    input_6: str | None = None
-    max_store_input_6: int | None = None
-    input_7: str | None = None
-    max_store_input_7: int | None = None
-    input_8: str | None = None
-    max_store_input_8: int | None = None
-    input_9: str | None = None
-    max_store_input_9: int | None = None
-    input_10: str | None = None
-    max_store_input_10: int | None = None
-    input_11: str | None = None
-    max_store_input_11: int | None = None
-    input_12: str | None = None
-    max_store_input_12: int | None = None
-    input_13: str | None = None
-    max_store_input_13: int | None = None
-    input_14: str | None = None
-    max_store_input_14: int | None = None
-    input_15: str | None = None
-    max_store_input_15: int | None = None
-    input_16: str | None = None
-    max_store_input_16: int | None = None
-    input_17: str | None = None
-    max_store_input_17: int | None = None
+    def load_input(self, product: str, quantity: int) -> int:
+        if product == self.config.input_1:
+            self.config.stock_input_1 += quantity
+            return self.config.stock_input_1
+        elif product == self.config.input_2:
+            self.config.stock_input_2 += quantity
+            return self.config.stock_input_2
+        elif product == self.config.input_3:
+            self.config.stock_input_3 += quantity
+            return self.config.stock_input_3
+        else:
+            return 0
+
+    def unload_input(self, product: str, quantity: int) -> int:
+        if product == self.config.input_1:
+            self.config.stock_input_1 -= quantity
+            return self.config.stock_input_1
+        elif product == self.config.input_2:
+            self.config.stock_input_2 -= quantity
+            return self.config.stock_input_2
+        elif product == self.config.input_3:
+            self.config.stock_input_3 -= quantity
+            return self.config.stock_input_3
+        else:
+            return 0
 
 
 
