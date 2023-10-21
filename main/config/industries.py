@@ -1,32 +1,31 @@
-
+from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Optional
 
-from dataclasses import dataclass, field
-
-from main.config.products import Products
-
+from products import Products
 
 """init products base class"""
 PRODUCT = Products
 
 
 class Industries(StrEnum):
-    """ All the industries on the railroad"""
-    logging_camp = 'logging_camp'
-    sawmill = 'sawmill'
-    iron_mine = 'iron_mine'
-    smelter = 'smelter'
-    coal_mine = 'coal_mine'
-    steel_mill = 'steel_mill'
-    oil_well = 'oil_well'
-    oil_refinery = 'oil_refinery'
-    freight_depot = 'freight_depot'
+    """All the industries on the railroad"""
+
+    logging_camp = "logging_camp"
+    sawmill = "sawmill"
+    iron_mine = "iron_mine"
+    smelter = "smelter"
+    coal_mine = "coal_mine"
+    steel_mill = "steel_mill"
+    oil_well = "oil_well"
+    oil_refinery = "oil_refinery"
+    freight_depot = "freight_depot"
 
 
 @dataclass
 class IndustryConfig:
     """Industry input output config"""
+
     input_1: str = PRODUCT.not_in_use
     stock_input_1: int = 0
     max_store_input_1: int = 0
@@ -79,43 +78,39 @@ class IndustryConfig:
 
 
 """init industries base class"""
-industries = Industries
+industries = Industries()
 
 
 """init production ratio per industry"""
-production_ratio: dict[industries] = {
-     industries.sawmill: {
-        "input": 2,
-        "output": 2,
-     },
-     industries.smelter: {
-        "input": 2,
-        "output": 2,
-     },
-     industries.logging_camp: {
-        "input": 0,
-        "output": 2,
-     },
-     industries.oil_refinery: {
-        "input": 2,
-        "output": 2,
-     },
-     industries.coal_mine: {
+production_ratio = {
+    industries.sawmill: {
         "input": 2,
         "output": 2,
     },
-     industries.iron_mine: {
+    industries.smelter: {
         "input": 2,
         "output": 2,
-     },
-     industries.oil_well: {
+    },
+    industries.logging_camp: {
+        "input": 0,
+        "output": 2,
+    },
+    industries.oil_refinery: {
         "input": 2,
         "output": 2,
-     },
- }
+    },
+    industries.coal_mine: {
+        "input": 2,
+        "output": 2,
+    },
+    industries.iron_mine: {
+        "input": 2,
+        "output": 2,
+    },
+    industries.oil_well: {
+        "input": 2,
+        "output": 2,
+    },
+}
 
 """init industry config per industry"""
-
-
-
-

@@ -1,27 +1,33 @@
-from enum import StrEnum
 from dataclasses import dataclass, field
+from enum import StrEnum
 
 
 class EnumJobs(StrEnum):
-    no_role = 'no_role'
-    conductor = 'conductor'
-    engineer = 'engineer'
-    dispatcher = 'dispatcher'
-    admin = 'admin'
+    """job enumerator"""
+
+    no_role = "no_role"
+    conductor = "conductor"
+    engineer = "engineer"
+    dispatcher = "dispatcher"
+    admin = "admin"
 
 
 @dataclass
 class RadioRights:
-    train_radio: bool = field(default=False)
-    dispatch_radio: bool = field(default=False)
-    priority_speaker: bool = field(default=False)
-    crew_lounge: bool = field(default=False)
-    create_train_radio: bool = field(default=False)
-    delete_train_radio: bool = field(default=False)
+    """all radio rights (discord)"""
+
+    train_radio: bool = False
+    dispatch_radio: bool = False
+    priority_speaker: bool = False
+    crew_lounge: bool = False
+    create_train_radio: bool = False
+    delete_train_radio: bool = False
 
 
 @dataclass
 class TimetableRights:
+    """all timetable rights"""
+
     view_timetable: bool = False
     delete_timetable: bool = False
     create_timetable: bool = False
@@ -30,6 +36,8 @@ class TimetableRights:
 
 @dataclass
 class SwitchListRights:
+    """alll switch list rights"""
+
     create_switch_list: bool = False
     view_switch_list: bool = False
     update_switch_list: bool = False
@@ -38,6 +46,8 @@ class SwitchListRights:
 
 @dataclass
 class ConsistTableRights:
+    """all consist table rights"""
+
     create_consist_table: bool = False
     view_consist_table: bool = False
     update_consist_table: bool = False
@@ -46,6 +56,8 @@ class ConsistTableRights:
 
 @dataclass
 class ItemManagerRights:
+    """all item management rights"""
+
     view_item: bool = False
     create_item: bool = False
     update_item: bool = False
@@ -54,6 +66,8 @@ class ItemManagerRights:
 
 @dataclass
 class LoadUnloadRights:
+    """all loading and unloading righs"""
+
     load_car: bool = False
     unload_car: bool = False
     view_product: bool = False
@@ -61,24 +75,12 @@ class LoadUnloadRights:
 
 @dataclass
 class FlagRights:
+    """all flag rights"""
+
     set_derail_flag: bool = False
     set_is_ready_flag: bool = False
     set_is_out_of_service_flag: bool = False
     set_is_assigned_to_consist_flag: bool = False
     set_is_occupied_flag: bool = False
     set_is_routed_flag: bool = False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    set_is_admin: bool = False
