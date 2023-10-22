@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Optional
 
-from products import Products
+from main.config.products import Products
 
 """init products base class"""
 PRODUCT = Products
@@ -78,7 +78,7 @@ class IndustryConfig:
 
 
 """init industries base class"""
-industries = Industries()
+industries = Industries
 
 
 """init production ratio per industry"""

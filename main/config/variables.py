@@ -1,5 +1,5 @@
-from industries import PRODUCT, industries, production_ratio
-from users import EnumJobs
+from main.config.industries import PRODUCT, Industries, production_ratio
+from main.config.users import EnumJobs
 
 JOB = EnumJobs
 """ List of all the railroads on the map"""
@@ -264,6 +264,7 @@ jobs = {
 }
 
 """industry config"""
+industries = Industries
 
 industry_config = {
     industries.sawmill: {
